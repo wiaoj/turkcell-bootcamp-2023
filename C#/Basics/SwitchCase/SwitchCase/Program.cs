@@ -9,7 +9,7 @@ if(geometry.Equals("Kare")) {
     Console.WriteLine("Üçgen");
 }
 
-
+// Mutlak eşitlikte switch kullanılması daha doğru olur
 switch(geometry) {
     case "Kare":
         Console.WriteLine("Kare");
@@ -38,6 +38,21 @@ switch(DateTime.Now.DayOfWeek) {
     case DayOfWeek.Friday:
         break;
     case DayOfWeek.Saturday:
+        break;
+    default:
+        break;
+}
+
+Console.WriteLine("Bir sembol seçiniz (Sinek, Maça, Kupa, Karo)");
+String symbol = Console.ReadLine();
+
+switch(symbol) {
+    case "Sinek" or "Maça":
+        Console.WriteLine("Siyah renk");
+        break;
+    case "Karo":
+    case "Kupa":
+        Console.WriteLine("Kırmızı renk");
         break;
     default:
         break;
