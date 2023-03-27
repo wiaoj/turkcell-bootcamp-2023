@@ -3,9 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33424.131
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SingleResponsibility", "SingleResponsibility\SingleResponsibility.csproj", "{DF7301B0-CDC6-4A6C-A864-6F88086AEDDD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SingleResponsibility", "SingleResponsibility\SingleResponsibility.csproj", "{DF7301B0-CDC6-4A6C-A864-6F88086AEDDD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenClosed", "OpenClosed\OpenClosed.csproj", "{35221521-C67C-4E24-9420-C514A511A537}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenClosed", "OpenClosed\OpenClosed.csproj", "{35221521-C67C-4E24-9420-C514A511A537}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LiskovSubstution", "LiskovSubstution\LiskovSubstution.csproj", "{DB240958-6400-43B5-B9E5-804923FB50BE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InterfaceSegregation", "InterfaceSegregation\InterfaceSegregation.csproj", "{6A4B83E6-6C41-4052-9B54-F3BC80BC5B54}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DependencyInversion", "DependencyInversion\DependencyInversion.csproj", "{E925D889-3F48-473C-827E-30D66A53EC5A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +27,18 @@ Global
 		{35221521-C67C-4E24-9420-C514A511A537}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{35221521-C67C-4E24-9420-C514A511A537}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{35221521-C67C-4E24-9420-C514A511A537}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DB240958-6400-43B5-B9E5-804923FB50BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DB240958-6400-43B5-B9E5-804923FB50BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DB240958-6400-43B5-B9E5-804923FB50BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DB240958-6400-43B5-B9E5-804923FB50BE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6A4B83E6-6C41-4052-9B54-F3BC80BC5B54}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6A4B83E6-6C41-4052-9B54-F3BC80BC5B54}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6A4B83E6-6C41-4052-9B54-F3BC80BC5B54}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6A4B83E6-6C41-4052-9B54-F3BC80BC5B54}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E925D889-3F48-473C-827E-30D66A53EC5A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E925D889-3F48-473C-827E-30D66A53EC5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E925D889-3F48-473C-827E-30D66A53EC5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E925D889-3F48-473C-827E-30D66A53EC5A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
