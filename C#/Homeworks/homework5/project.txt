@@ -1,0 +1,13 @@
+9 nisan 23:59 nisan son teslim
+Uygulamanýn business kýsmýný isteniyor, arayüz önemli deðil.
+Teknik anlamda en ideal kod isteniyor.
+---------------------------------------
+Bir lise düþünüyoruz ve bu lisede bir kaç tane sýnýf mevcut, her sýnýfta da öðrenciler var ve her sýnýftan sorumlu öðretmen olacak;
+Sýnýfta öðrenci kapasitesi yok.
+Bu sýnýflarý, öðrencileri ve eðitmenleri atayan bir uygulama,
+Sýnýflarda öðrenci aranabilecek,
+Hangi eðitmen hangi sýnýfta onu öðrenebileceðiz
+Ýskelet olarak öðrenci eðitmenine ödevini gönderebilecek
+---------------------------------------
+Bu sistemin iþ mantýðý isteniyor.
+OOP, SOLID, Temiz kod önemli kriterler;
