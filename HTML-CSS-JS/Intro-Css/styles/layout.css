@@ -1,0 +1,59 @@
+div {
+	/* display: inline-block; */
+	border: 1px solid black;
+	border-radius: 10px;
+    box-shadow: gray 5px 5px 3px;
+    margin: 5px;
+}
+
+body {
+	font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande", "Lucida Sans", Arial, sans-serif;
+}
+
+#container {
+	width: 100%;
+	/* min-width: 1690px; */
+	height: 100%;
+	min-height: 720px;
+}
+
+#header {
+	width: 100%;
+	background-color: lightblue;
+	/* text-align: center;
+    vertical-align: middle; */
+	height: 100px;
+	min-height: 200px;
+	padding: 50px;
+}
+
+#root {
+	width: 100%;
+	background-color: aquamarine;
+	min-height: 980px;
+	height: 980px;
+    padding: 5px;
+}
+
+#vertical-menu {
+	float: left;
+	min-height: 960px;
+	height: 960px;
+	width: 15%;
+	background-color: darkgray;
+}
+
+#content {
+    float: left;
+    width: 75%;
+    min-height: 960px;
+    height: 960px;
+    background-color: darkslategray;
+}
+
+.product {
+    float: left;
+    width: 15%;
+    height: 20%;
+    background-color: #fff;
+}
