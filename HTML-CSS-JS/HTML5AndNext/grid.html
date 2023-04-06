@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+
+		<style>
+			.g-container {
+                display: grid;
+                grid-template-areas: 
+                    "header header header header"
+                    "nav content content content"
+                    "footer footer footer footer";
+
+                gap: 10px;
+                background-color: silver;
+                padding: 24px;
+            }
+
+            .g-container > div {
+                border: 1px solid black;
+                padding: 25px;
+                font-size: 14px;
+                text-align: center;
+                /* height: 100%;
+                width: 100%; */
+            }
+
+            .header {
+                grid-area: header;
+                background-color: yellowgreen;
+            }
+
+            .nav {
+                grid-area: nav;
+                background-color: violet;
+            }
+
+            .content {
+                grid-area: content;
+                background-color: aquamarine;
+            }
+
+            .footer{
+                grid-area: footer;
+                background-color: blueviolet;
+            }
+		</style>
+	</head>
+	<body>
+		<div class="g-container">
+			<div class="header">Header</div>
+			<div class="nav">Nav</div>
+			<div class="content">
+                <h3>Günün Tatlısı</h3>
+                <h4>Tulumba Tatlısı</h4>
+                <p>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Excepturi molestias a nam sunt quam magni aliquid est at ipsum, facilis labore expedita quod voluptates aut! Perferendis atque veniam quam asperiores.
+                </p>
+            </div>
+			<div class="footer">Footer</div>
+		</div>
+	</body>
+</html>
