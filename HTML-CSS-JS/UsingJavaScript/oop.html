@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+	</head>
+	<body>
+		<button onclick="showEmployees()">Çalışanları Göster</button>
+		<div id="employeePlaceholder"></div>
+		<script>
+			// JSON: JavaScript Object Notation
+			var employee = {
+				name: "Fil",
+				surname: "Aslan",
+				age: 57,
+			};
+
+			// var sayın ki; aşağıdaki personeller koleksiyonu bir api'den geliyor
+			var employees = [
+				{
+					name: "Zürafa",
+					surname: "Bukelemun",
+					age: 17,
+				},
+				employee,
+				{
+					name: "Ornitorenk",
+					surname: "Karınca",
+					age: 24,
+				},
+			];
+
+			function showEmployees() {
+				var table = document.createElement("table");
+				table.setAttribute("border", 1);
+                
+				employees.forEach(function (employee, index) {
+					// console.log(index, employee);
+					//console.table(employee);
+					var row = getEmployeeeOnRow(employee);
+					table.append(row);
+				});
+
+				document.getElementById("employeePlaceholder").innerHTML = "";
+				document.getElementById("employeePlaceholder").appendChild(table);
+			}
+
+			function getEmployeeeOnRow(employee) {
+				var row = document.createElement("tr");
+				var cellName = document.createElement("td");
+				var cellSurname = document.createElement("td");
+				var cellAge = document.createElement("td");
+
+				cellName.innerText = employee.name;
+				cellSurname.innerText = employee.surname;
+				cellAge.innerText = employee.age;
+
+				//appendChild yerine append de kullanılabilirdi ama bellekteki kullanımları birbirinden farklı
+				// div içine element eklenecekse append kullanılabilir, aralarındaki ilişkiyi belirliyor
+				row.appendChild(cellName);
+				row.appendChild(cellSurname);
+				row.appendChild(cellAge);
+
+				return row;
+			}
+		</script>
+	</body>
+</html>

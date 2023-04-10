@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+		<style>
+			div {
+				border: 1px solid black;
+				border-radius: 10px;
+				padding: 10px;
+				margin: 10px;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="panel" onclick="clickMe(event)">
+			<div id="section" onclick="clickMe(event)">
+				<div id="container" onclick="clickMe(event)">
+					<button id="button-add-to-card" onclick="clickMe(event)">Sepete Ekle</button>
+				</div>
+			</div>
+		</div>
+
+		<button id="alt">Alternatif Event</button>
+
+		<!-- içten dışa doğru gidiyor ve buna bubble deniliyor -->
+		<script>
+			document.getElementById("alt").addEventListener("click", (event) => {
+                clickMe(event)
+                alert("alternatif")
+            });
+			function clickMe(event) {
+				console.log(event);
+				event.cancelBubble = true;
+				var target = event.target;
+				// target.style = "background-color: pink;";
+				//alert("button");
+
+				var backgroundColor;
+				switch (target.id) {
+					case "panel":
+						backgroundColor = "background-color: yellow;";
+						break;
+					case "section":
+						backgroundColor = "background-color: green;";
+						break;
+					case "container":
+						backgroundColor = "background-color: red;";
+						break;
+					case "button-add-to-card":
+						backgroundColor = "background-color: pink;";
+						break;
+				}
+				target.style = backgroundColor;
+			}
+
+			function fn1(event) {
+				event.cancelBubble = true;
+				alert("panel");
+			}
+
+			function fn2(event) {
+				event.cancelBubble = true;
+				alert("section");
+			}
+
+			function fn3(event) {
+				event.cancelBubble = true;
+				alert("container");
+			}
+		</script>
+	</body>
+</html>
