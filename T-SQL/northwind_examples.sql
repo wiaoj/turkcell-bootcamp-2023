@@ -90,7 +90,10 @@ FROM [Order Details]
 GROUP BY OrderId;
 
 -- 1000 Dolardan fazla tutan sipariþler
-SELECT OrderId, '$' + CONVERT(nvarchar,ROUND(SUM(UnitPrice *(1 - Discount) * Quantity),2)) AS TotalPriceFROM [Order Details]GROUP BY ORDERID
+SELECT OrderId, 
+'$' + CONVERT(nvarchar,ROUND(SUM(UnitPrice *(1 - Discount) * Quantity),2)) AS TotalPrice
+FROM [Order Details]
+GROUP BY ORDERID
 HAVING ROUND(SUM(UnitPrice *(1 - Discount) * Quantity),2) > 1000;
 
 SELECT SUM(UnitPrice *(1 - Discount) * Quantity)
@@ -105,5 +108,184 @@ GROUP BY OrderId
 ORDER BY Total DESC
 
 
+----- JOIN -----
+
+SELECT ProductName, CategoryID FROM Products
+SELECT CategoryID FROM Categories
 
 
+INSERT INTO Categories (CategoryName) VALUES ('Tatlýlar')
+INSERT INTO Products (ProductName,UnitPrice) VALUES ('Gül Reçeli', 60)
+
+SELECT ProductName, UnitPrice, CategoryName
+FROM Categories INNER JOIN Products
+ON Categories.CategoryID = Products.CategoryID
+ORDER BY CategoryName
+
+-- Hangi kategoriden kaç adet ürün vardýr?
+-- 1. Ne yapmak istiyorsun?
+-- 2. Hangi tablo veya tablolar ile çalýþmak istiyorsun?
+-- 3. Hangi kolonlar ve veri ile çalýþmak istiyorsun?
+-- 4. Eðer Gövdede Aggregate function varsa GROUP BY kullan
+
+
+SELECT CategoryName, COUNT(DISTINCT ProductID) AS Quantity
+FROM Categories INNER JOIN Products -- JOIN -> varsayýlan olarak INNER JOIN olarak iþlenir
+ON Categories.CategoryID = Products.CategoryID
+GROUP BY CategoryName
+ORDER BY CategoryName
+
+SELECT CategoryName, AVG(UnitPrice) AS AveragePrice
+FROM Categories INNER JOIN Products
+ON Categories.CategoryID = Products.CategoryID
+GROUP BY CategoryName
+ORDER BY AveragePrice DESC
+
+-- Hangi sipariþi, hangi müþteri vermiþ?
+
+SELECT 
+	OrderID, CONVERT(nvarchar, OrderDate, 103), CompanyName
+FROM Orders JOIN Customers
+ON Customers.CustomerID = Orders.CustomerID
+ORDER BY CompanyName
+
+
+-- Hangi sipariþi, hangi müþteri vermiþ ve bu sipariþi hangi çalýþan onaylamýþ?
+
+SELECT 
+	OrderID, 
+	CONVERT(nvarchar, OrderDate, 103),
+	CompanyName,
+	CONCAT(FirstName, ' ', LastName) AS EmployeeFullName
+FROM Orders JOIN Customers
+ON Customers.CustomerID = Orders.CustomerID
+			JOIN Employees
+			ON  Orders.EmployeeID = Employees.EmployeeID
+ORDER BY CompanyName
+
+
+-- Hangi sipariþi 
+-- Hangi müþteri, ne zaman vermiþ
+-- Hangi çalýþan onaylamýþ
+-- Hangi kargo þirketiyle gönderilmiþ
+-- Bu sipariþte
+-- Hangi tedarikçinin saðladýðý
+-- Hangi kategoriden
+-- Kaç adet ürün alýnmýþ ve ne kadar ödenmiþtir?
+
+SELECT
+	o.OrderID,
+	c.CompanyName, o.OrderDate,
+	e.FirstName + ' ' + e.LastName 'Çalýþan', -- -> alias
+	s.CompanyName 'Kargo',
+	sp.CompanyName 'Tedarikçi',
+	ca.CategoryName,
+	p.ProductName,
+	od.Quantity,
+	od.Discount,
+	od.UnitPrice * (1 - od.Discount) * od.Quantity 'Ödenen'
+FROM Employees AS e JOIN Orders o
+ON e.EmployeeID = o.EmployeeID
+JOIN Customers c
+ON o.CustomerID = c.CustomerID
+JOIN Shippers s
+ON o.ShipVia = s.ShipperID
+JOIN [Order Details] od
+ON od.OrderID = o.OrderID
+JOIN Products p
+ON p.ProductID = od.ProductID
+JOIN Suppliers sp
+ON p.SupplierID = sp.SupplierID
+JOIN Categories ca
+ON ca.CategoryID = p.CategoryID
+ORDER BY 'Ödenen' DESC
+
+-- OUTER JOIN 
+-- Sadece eþleþen kayýtlarý deðil eþleþmeyenlerden de veri getiren join türü
+-- Kategoriler ve Ürünler
+-- Tüm kategoriler gelsin ve yanlarýnda ürünler gelsin
+
+SELECT 
+	CategoryName, ProductName
+FROM Categories LEFT JOIN Products
+ON Products.CategoryID = Categories.CategoryID
+WHERE ProductName IS NULL -- -> ürünü olmayan kategorileri getirir
+
+
+SELECT 
+	CategoryName, ProductName
+FROM Categories RIGHT JOIN Products
+ON Products.CategoryID = Categories.CategoryID
+WHERE CategoryName IS NULL
+
+SELECT 
+	CategoryName, ProductName
+FROM Categories FULL OUTER JOIN Products
+ON Products.CategoryID = Categories.CategoryID
+WHERE CategoryName + ProductName IS NULL -- CategoryName IS NULL OR ProductName IS NULL
+
+SELECT CategoryName, COUNT(DISTINCT ProductName) AS Quantity
+FROM Categories LEFT JOIN Products
+ON Categories.CategoryID = Products.CategoryID
+GROUP BY CategoryName
+ORDER BY CategoryName
+
+-- Kim Kimin Müdürü?
+SELECT 
+	Calisanlar.FirstName + ' ' + Calisanlar.LastName 'Çalýþan',
+	Mudurler.FirstName + ' ' + Mudurler.LastName 'Müdür'
+FROM Employees AS Calisanlar LEFT JOIN Employees AS Mudurler -- -> Alias verdiðimiz için bu þekilde join yapýlabiliyor
+ON Calisanlar.ReportsTo = Mudurler.EmployeeID
+--WHERE Mudurler.FirstName + ' ' + Mudurler.LastName IS NULL
+ORDER BY Çalýþan
+
+
+SELECT 
+	*
+FROM Orders CROSS JOIN [Order Details] -- -> eþlelen tüm tablolalarýn çarpýmý kadar sürüyor
+
+SELECT ProductName, UnitPrice, UnitsInStock, Durum = CASE 
+															WHEN UnitsInStock = 0 THEN 'Yok'
+															WHEN UnitsInStock < 20 THEN 'Kritik'
+															WHEN UnitsInStock < 50 THEN 'Normal'
+															WHEN UnitsInStock > 50 THEN 'Fazla'
+														END
+FROM Products
+ORDER BY Durum
+
+-- En pahalý ürünüm hangisi
+SELECT MAX(UnitPrice)
+FROM Products
+
+-- Top 1 ile çekince hepsini belleðe atýp 1. yi getirir uzun sürer
+
+SELECT 
+	*
+FROM Products
+WHERE UnitPrice = (
+	SELECT MIN(UnitPrice) FROM Products
+	)
+
+SELECT CategoryName, COUNT(DISTINCT ProductName) AS Quantity
+FROM Categories LEFT JOIN Products
+ON Categories.CategoryID = Products.CategoryID
+GROUP BY CategoryName
+ORDER BY CategoryName
+
+
+SELECT 
+	c.CategoryName, (SELECT COUNT(ProductId) FROM Products WHERE CategoryID = c.CategoryID)
+FROM Categories AS c
+
+-- ÖDEV -> Sorgumu seçtim -> CTRL + M (Include Actual Execution Plan) Sorgu maliyeti
+-- Execution Planý nasýl okunur?
+
+
+-- Ayný ülkede bulunan tedarikçi firmalar ve müþterilerimi istiyorum.
+
+SELECT CompanyName, Address, City, Country, 'Müþteri' AS Durum FROM Customers 
+UNION -- -> iki tablodaki verileri tek tablodan çekilmiþ þekilde gösteriyor
+SELECT CompanyName, Address, City, Country, 'Tedarikçi' FROM Suppliers
+ORDER BY Country -- -> ORDER BY kullanýlýrken ilk select sorgusunun Alias durumu geçerlidir
+
+-- En fazla para çalýþan kimdir ve ne kadar para kazandýrmýþtýr?
