@@ -266,6 +266,8 @@ WHERE UnitPrice = (
 	SELECT MIN(UnitPrice) FROM Products
 	)
 
+
+
 SELECT CategoryName, COUNT(DISTINCT ProductName) AS Quantity
 FROM Categories LEFT JOIN Products
 ON Categories.CategoryID = Products.CategoryID
@@ -289,3 +291,173 @@ SELECT CompanyName, Address, City, Country, 'Tedarikçi' FROM Suppliers
 ORDER BY Country -- -> ORDER BY kullanýlýrken ilk select sorgusunun Alias durumu geçerlidir
 
 -- En fazla para çalýþan kimdir ve ne kadar para kazandýrmýþtýr?
+
+
+-- Ürünlerin fotoðraf arama linklerini gösteren result set:
+SELECT 
+	'https://www.google.com/search?tbm=isch&q=' + ProductName
+FROM Products
+
+
+----- View ----- -> her çaðýrýldýðýnda bu sorguyu tekrardan çalýþtýrýyor
+CREATE VIEW ActiveProducts
+AS -- -> buradaki as alias deðil view'in tanýmý
+SELECT 
+	ProductName, UnitPrice
+FROM Products
+WHERE Discontinued = 0
+
+SELECT * FROM ActiveProducts
+
+CREATE VIEW CategoryMenu
+AS
+SELECT CategoryName, COUNT(DISTINCT ProductName) AS Quantity
+FROM Categories LEFT JOIN Products
+ON Categories.CategoryID = Products.CategoryID
+GROUP BY CategoryName
+-- ORDER BY CategoryName -> view içerisinde order by olmaz
+
+SELECT * FROM CategoryMenu 
+	WHERE Quantity > 5 
+	ORDER BY Quantity DESC
+
+CREATE VIEW DetailedOrders
+AS
+SELECT
+	o.OrderID,
+	c.CompanyName, o.OrderDate,
+	e.FirstName + ' ' + e.LastName 'Çalýþan',
+	s.CompanyName 'Kargo',
+	sp.CompanyName 'Tedarikçi',
+	ca.CategoryName,
+	p.ProductName,
+	od.Quantity,
+	od.Discount,
+	od.UnitPrice * (1 - od.Discount) * od.Quantity 'Ödenen'
+FROM Employees AS e JOIN Orders o
+ON e.EmployeeID = o.EmployeeID
+JOIN Customers c
+ON o.CustomerID = c.CustomerID
+JOIN Shippers s
+ON o.ShipVia = s.ShipperID
+JOIN [Order Details] od
+ON od.OrderID = o.OrderID
+JOIN Products p
+ON p.ProductID = od.ProductID
+JOIN Suppliers sp
+ON p.SupplierID = sp.SupplierID
+JOIN Categories ca
+ON ca.CategoryID = p.CategoryID
+
+
+SELECT 
+	CategoryName, COUNT(OrderID) AS TotalOrder
+FROM DetailedOrders
+GROUP BY CategoryName
+ORDER BY TotalOrder DESC
+
+CREATE VIEW CategorySales_1996_August
+AS
+SELECT 
+	CategoryName,
+	COUNT(OrderID) AS TotalOrder, 
+	SUM(Ödenen) AS TotalPrice
+FROM DetailedOrders
+WHERE OrderDate BETWEEN '1996-08-01' AND '1996-08-31'
+GROUP BY CategoryName
+
+SELECT * FROM CategorySales_1996_August
+
+SELECT 
+	ProductName, SUM(Quantity) AS TotalQuantity
+FROM DetailedOrders
+GROUP BY ProductName
+ORDER BY TotalQuantity DESC
+
+
+SELECT 
+	ProductName, SUM(Ödenen) AS TotalPrice
+FROM DetailedOrders
+GROUP BY ProductName
+ORDER BY TotalPrice DESC
+
+
+SELECT *
+FROM Products
+WHERE ProductName LIKE '%Cha%'
+
+
+/* Nonclustered index: */
+CREATE NONCLUSTERED INDEX ProductName ON Products
+(
+	[ProductName] ASC
+)
+GO
+
+
+/* Bozulan index'i düzenler */
+DBCC INDEXDEFRAG (Northwind, 'Products', ProductName);
+GO
+
+
+-- Stored Procedure: Parametrik olarak, sorgu üretebilen nesneler:
+ 
+CREATE PROCEDURE AddNewProduct
+	@name nvarchar(40), 
+	@price money
+AS
+INSERT INTO Products (ProductName, UnitPrice)
+			VALUES (@name, @price);
+
+AddNewProduct 'Domates', 40
+
+
+CREATE PROC GetOrdersByDate
+	@start datetime,
+	@finish datetime
+AS
+SELECT *
+FROM Orders WHERE OrderDate BETWEEN @start AND @finish
+
+
+GetOrdersByDate '19971201', '19971231'
+
+
+-- Bu ürünü alanlar bunu da aldýlar.
+-- 1. O ürünü alan tüm sipariþleri bul.
+-- 2. O ürün hariç, diðer ürünlere bak.
+CREATE PROC BunuAlanlarBunudaAldi
+	@productId int,
+	@value int = 1 -- -> default deðer verilebiliyor
+AS
+SELECT TOP 5 ProductName, SUM(Quantity) AS TotalQuantity
+FROM Products JOIN [Order Details]
+ON Products.ProductID = [Order Details].ProductID
+WHERE [Order Details].OrderID IN(
+			SELECT OrderId FROM [Order Details] WHERE ProductID = @productId
+		)
+		AND [Order Details].ProductID != @productId
+GROUP BY ProductName
+ORDER BY TotalQuantity DESC
+
+
+
+BunuAlanlarBunudaAldi 1
+
+
+-- Transaction: Bir eylemin, belirli bir durumda geri alýnabilir olmasýný saðlayan, kurallý akýþ.
+
+BEGIN TRY
+	BEGIN TRANSACTION T1
+		-- Çalýþmasý gereken ilk sorgu
+		BEGIN TRANSACTION T2
+			-- T1'in çalýþmasýna baðlý ikinci sorgu
+		COMMIT T2
+	COMMIT TRANSACTION T1
+END TRY
+
+BEGIN CATCH
+	ROLLBACK TRANSACTION T1
+	-- Herhangi bir yerde hata olursa geri almasýný saðlýyor
+	-- Bir tane daha T3 olsaydý eðer sadece T1'i geri al dediðimiz zaman tüm TRANSACTION'ý geri alýr
+END CATCH
