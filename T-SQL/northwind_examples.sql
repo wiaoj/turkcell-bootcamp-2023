@@ -461,3 +461,83 @@ BEGIN CATCH
 	-- Herhangi bir yerde hata olursa geri almasýný saðlýyor
 	-- Bir tane daha T3 olsaydý eðer sadece T1'i geri al dediðimiz zaman tüm TRANSACTION'ý geri alýr
 END CATCH
+
+
+CREATE PROC NewOrderDetail
+	@customerId nchar(5),
+	@productId int,
+	@quantity int
+AS
+--@@ROWCOUNT
+--@@ERROR
+BEGIN TRY 
+	BEGIN TRAN CreateOrder
+		-- 1. Önce Orders tablosunda sipariþ oluþtur.
+		DECLARE @lastOrderId int -- -> deðiþken tanýmlama
+		INSERT INTO Orders (CustomerID, OrderDate) VALUES (@customerId, GETDATE())
+		SET @lastOrderId = SCOPE_IDENTITY() -- -> son id deðerini getiriyor
+		BEGIN TRAN Create_Order_Details
+			-- 2. 1. Ýþlemin sonunda elde ettiðin yeni OrderId ile sipariþ detayý(Order Details) (ürün ve adet) ekle
+			INSERT INTO [Order Details] (OrderID, ProductID, Quantity) VALUES (@lastOrderId, @productId, @quantity)
+			BEGIN TRAN UpdateProduct
+				-- 3. Sipariþ edilen adeti ürün stoðundan düþ
+				UPDATE Products SET UnitInStock = UnitInStock - @quantity WHERE ProductID = @productId
+			COMMIT TRAN UpdateProduct
+		COMMIT TRAN Create_Order_Details
+	COMMIT TRAN CreateOrder
+END TRY
+BEGIN CATCH
+	ROLLBACK TRAN CreateOrder
+END CATCH
+
+
+AddNewOrderDetail 'ALFKI', 3, 4
+
+SELECT TOP 1 * FROM Orders ORDER BY OrderID DESC
+SELECT OrderID, ProductID, Quantity FROM [Order Details] WHERE OrderID = 11078
+SELECT ProductName, UnitInStock FROM Products WHERE ProductID = 3
+
+-- ...yerine (instead of)
+-- ...den sonra (after)
+
+-- Ürün satýn alýndýðýnda; o ürünün stoðundan satýn alýnan adet kadar düþen trigger:
+
+-- After trigger
+CREATE TRIGGER stockUpdater
+ON [Order Details] FOR INSERT --, UPDATE
+AS 
+-- INSERTED & DELETED adýnda 2 tane geçici tablo var ve sadece 1 satýrý mevcut son iþlem göreni içinde tutar
+-- sadece trigger içerisinden eriþilir
+DECLARE @quantity int
+DECLARE @productId int
+SELECT @productId = ProductID, @quantity = Quantity FROM inserted 
+
+UPDATE Products SET UnitInStock = UnitInStock - @quantity WHERE ProductID = @productId
+
+-- Instead of.
+SELECT ProductName, Discontinued FROM Products
+
+CREATE TRIGGER TR_DeleteProduct
+ON Products INSTEAD OF DELETE
+AS 
+DECLARE @id int
+SELECT @id = ProductID FROM deleted
+UPDATE Products SET Discountinued = 1 WHERE ProductID = @id
+
+/*
+	Öðrenciler
+	ÖðrenciId Ad Soyad Puan
+
+
+	Geçenler
+	ÖðrenciId Ad Soyad Puan
+
+
+	Kalanlar
+	ÖðrenciId Ad Soyad Puan
+
+	-- Otomatik olarak 50'nin üzerinde alan öðrenciyi,
+	Geçenlere kaydedecez; altýndaysa Kalanlar tablosuna kaydedecek trigger.
+	-- Geçenler tablosuna insert yapýlmaya çalýþýldýðýnda INSTEAD OF ile 
+	kaydý öðrencilere yönlendiren trigger yazmaya karar verildi
+*/
