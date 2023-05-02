@@ -5,8 +5,8 @@ public class Book {
     public Int32 Id { get; set; }
     public String Title { get; set; }
     public String Description { get; set; }
-    public DateTime PublishDate { get; set; }
+    public DateTime? PublishDate { get; set; }
 
-    public Int32 AuthorId { get; set; }
-    public Author Author { get; set; }
+    public List<Author>? Authors { get; set; }
+    public List<Review>? Reviews { get; set; }
 }

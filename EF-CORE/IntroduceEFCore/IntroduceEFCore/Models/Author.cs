@@ -4,5 +4,5 @@ public class Author {
     public String Name { get; set; }
     public String LastName { get; set; }
 
-    public IList<Book> Books { get; set; }
+    public IList<Book>? Books { get; set; }
 }
