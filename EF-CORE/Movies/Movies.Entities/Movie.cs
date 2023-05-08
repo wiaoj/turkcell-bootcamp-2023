@@ -8,7 +8,7 @@ public class Movie : IEntity {
     public Double? Rating { get; set; }
 
     //Navigation Property:
-    public Int32 DirectorId { get; set; }
+    public Int32? DirectorId { get; set; }
     public Director? Director { get; set; }
 
     public ICollection<MoviesPlayer> Players { get; set; } = new HashSet<MoviesPlayer>();
