@@ -51,7 +51,7 @@ namespace Movies.Data.Migrations
                     Poster = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Duration = table.Column<int>(type: "int", nullable: true),
                     Rating = table.Column<double>(type: "float", nullable: true),
-                    DirectorId = table.Column<int>(type: "int", nullable: false)
+                    DirectorId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {

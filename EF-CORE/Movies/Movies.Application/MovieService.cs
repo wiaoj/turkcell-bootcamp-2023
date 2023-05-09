@@ -34,6 +34,13 @@ public sealed class MovieService : IMovieService {
             Poster = movie.Poster,
             PublishDate = movie.PublishDate,
             Rating = movie.Rating,
+            DirectorName = movie.Director is null
+                ? "Yönetmen Bulunamadı"
+                : $"{movie.Director.Name} {movie.Director.LastName}",
+            Players = movie.Players is null
+                ? "Oyuncu Bilgileri Bulunamadı"
+                : String.Join(",", movie.Players.Select(players => $"{players.Player.Name} {players.Player.LastName} : {players.Role}"
+                ))
         });
         return response;
     }

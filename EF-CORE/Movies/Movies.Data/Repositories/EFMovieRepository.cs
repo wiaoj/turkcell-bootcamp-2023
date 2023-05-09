@@ -22,7 +22,12 @@ public class EFMovieRepository : IMovieRepository {
     }
 
     public async Task<IEnumerable<Movie>> GetAllAsync() {
-        return await this.moviesDbContext.Movies.AsNoTracking().ToListAsync();
+        return await this.moviesDbContext.Movies
+            .AsNoTracking()
+            .Include(movie => movie.Director)
+            .Include(movie => movie.Players)
+            .ThenInclude(players => players.Player)
+            .ToListAsync();
     }
 
     public async Task<Movie?> GetByIdAsync(Int32 id) {

@@ -10,14 +10,17 @@ public partial class Form1 : Form {
         this.InitializeComponent();
     }
 
-    private async void buttonGetMovies_Click(Object sender, EventArgs e) {
+    private async void Form1_Load(Object sender, EventArgs e) {
         MoviesDbContext moviesDbContext = new();
         EFMovieRepository eFMovieRepository = new(moviesDbContext);
         MovieService movieService = new(eFMovieRepository);
 
-        IEnumerable<MovieListResponse> responses = await movieService.GetAllMovies();
-        foreach(MovieListResponse item in responses) {
-            this.listBoxMovies.Items.Add($"{item.Name} {item.Duration} dakika");
-        }
+        IEnumerable<MovieListResponse> list = await movieService.GetAllMovies();
+        dataGridViewMovies.DataSource = list.ToList();
+    }
+
+    private void buttonDirector_Click(Object sender, EventArgs e) {
+        FormDirectors formDirectors = new();
+        formDirectors.Show();
     }
 }

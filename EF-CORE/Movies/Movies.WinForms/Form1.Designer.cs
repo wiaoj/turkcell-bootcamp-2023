@@ -24,43 +24,84 @@ partial class Form1 {
     ///  the contents of this method with the code editor.
     /// </summary>
     private void InitializeComponent() {
-        this.buttonGetMovies = new Button();
-        this.listBoxMovies = new ListBox();
+        this.panel1 = new Panel();
+        this.dataGridViewMovies = new DataGridView();
+        this.panel2 = new Panel();
+        this.button2 = new Button();
+        this.buttonDirector = new Button();
+        this.panel1.SuspendLayout();
+        ((System.ComponentModel.ISupportInitialize)this.dataGridViewMovies).BeginInit();
+        this.panel2.SuspendLayout();
         this.SuspendLayout();
         // 
-        // buttonGetMovies
+        // panel1
         // 
-        this.buttonGetMovies.Location = new Point(298, 177);
-        this.buttonGetMovies.Name = "buttonGetMovies";
-        this.buttonGetMovies.Size = new Size(217, 48);
-        this.buttonGetMovies.TabIndex = 0;
-        this.buttonGetMovies.Text = "button1";
-        this.buttonGetMovies.UseVisualStyleBackColor = true;
-        this.buttonGetMovies.Click += this.buttonGetMovies_Click;
+        this.panel1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+        this.panel1.Controls.Add(this.dataGridViewMovies);
+        this.panel1.Location = new Point(1, -2);
+        this.panel1.Name = "panel1";
+        this.panel1.Size = new Size(798, 198);
+        this.panel1.TabIndex = 2;
         // 
-        // listBoxMovies
+        // dataGridViewMovies
         // 
-        this.listBoxMovies.FormattingEnabled = true;
-        this.listBoxMovies.ItemHeight = 15;
-        this.listBoxMovies.Location = new Point(557, 99);
-        this.listBoxMovies.Name = "listBoxMovies";
-        this.listBoxMovies.Size = new Size(120, 94);
-        this.listBoxMovies.TabIndex = 1;
+        this.dataGridViewMovies.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+        this.dataGridViewMovies.Dock = DockStyle.Fill;
+        this.dataGridViewMovies.Location = new Point(0, 0);
+        this.dataGridViewMovies.Name = "dataGridViewMovies";
+        this.dataGridViewMovies.RowTemplate.Height = 25;
+        this.dataGridViewMovies.Size = new Size(798, 198);
+        this.dataGridViewMovies.TabIndex = 3;
+        // 
+        // panel2
+        // 
+        this.panel2.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+        this.panel2.Controls.Add(this.button2);
+        this.panel2.Controls.Add(this.buttonDirector);
+        this.panel2.Location = new Point(1, 227);
+        this.panel2.Name = "panel2";
+        this.panel2.Size = new Size(798, 222);
+        this.panel2.TabIndex = 3;
+        // 
+        // button2
+        // 
+        this.button2.Location = new Point(42, 106);
+        this.button2.Name = "button2";
+        this.button2.Size = new Size(167, 30);
+        this.button2.TabIndex = 1;
+        this.button2.Text = "Oyuncu İşlemleri";
+        this.button2.UseVisualStyleBackColor = true;
+        // 
+        // buttonDirector
+        // 
+        this.buttonDirector.Location = new Point(42, 60);
+        this.buttonDirector.Name = "buttonDirector";
+        this.buttonDirector.Size = new Size(167, 30);
+        this.buttonDirector.TabIndex = 0;
+        this.buttonDirector.Text = "Yönetmen İşlemleri";
+        this.buttonDirector.UseVisualStyleBackColor = true;
+        this.buttonDirector.Click += this.buttonDirector_Click;
         // 
         // Form1
         // 
         this.AutoScaleDimensions = new SizeF(7F, 15F);
         this.AutoScaleMode = AutoScaleMode.Font;
         this.ClientSize = new Size(800, 450);
-        this.Controls.Add(this.listBoxMovies);
-        this.Controls.Add(this.buttonGetMovies);
+        this.Controls.Add(this.panel2);
+        this.Controls.Add(this.panel1);
         this.Name = "Form1";
         this.Text = "Form1";
+        this.Load += this.Form1_Load;
+        this.panel1.ResumeLayout(false);
+        ((System.ComponentModel.ISupportInitialize)this.dataGridViewMovies).EndInit();
+        this.panel2.ResumeLayout(false);
         this.ResumeLayout(false);
     }
 
     #endregion
-
-    private Button buttonGetMovies;
-    private ListBox listBoxMovies;
+    private Panel panel1;
+    private DataGridView dataGridViewMovies;
+    private Panel panel2;
+    private Button button2;
+    private Button buttonDirector;
 }
