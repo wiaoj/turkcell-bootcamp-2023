@@ -27,6 +27,8 @@ partial class Form1 {
         this.panel1 = new Panel();
         this.dataGridViewMovies = new DataGridView();
         this.panel2 = new Panel();
+        this.buttonGetAllMovies = new Button();
+        this.buttonAddMovie = new Button();
         this.button2 = new Button();
         this.buttonDirector = new Button();
         this.panel1.SuspendLayout();
@@ -56,12 +58,34 @@ partial class Form1 {
         // panel2
         // 
         this.panel2.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+        this.panel2.Controls.Add(this.buttonGetAllMovies);
+        this.panel2.Controls.Add(this.buttonAddMovie);
         this.panel2.Controls.Add(this.button2);
         this.panel2.Controls.Add(this.buttonDirector);
         this.panel2.Location = new Point(1, 227);
         this.panel2.Name = "panel2";
         this.panel2.Size = new Size(798, 222);
         this.panel2.TabIndex = 3;
+        // 
+        // buttonGetAllMovies
+        // 
+        this.buttonGetAllMovies.Location = new Point(42, 16);
+        this.buttonGetAllMovies.Name = "buttonGetAllMovies";
+        this.buttonGetAllMovies.Size = new Size(79, 26);
+        this.buttonGetAllMovies.TabIndex = 3;
+        this.buttonGetAllMovies.Text = "Yenile";
+        this.buttonGetAllMovies.UseVisualStyleBackColor = true;
+        this.buttonGetAllMovies.Click += this.buttonGetAllMovies_Click;
+        // 
+        // buttonAddMovie
+        // 
+        this.buttonAddMovie.Location = new Point(42, 159);
+        this.buttonAddMovie.Name = "buttonAddMovie";
+        this.buttonAddMovie.Size = new Size(167, 31);
+        this.buttonAddMovie.TabIndex = 2;
+        this.buttonAddMovie.Text = "Yeni Film Ekle";
+        this.buttonAddMovie.UseVisualStyleBackColor = true;
+        this.buttonAddMovie.Click += this.buttonAddMovie_Click;
         // 
         // button2
         // 
@@ -71,6 +95,7 @@ partial class Form1 {
         this.button2.TabIndex = 1;
         this.button2.Text = "Oyuncu İşlemleri";
         this.button2.UseVisualStyleBackColor = true;
+        this.button2.Click += this.buttonPlayer_Click;
         // 
         // buttonDirector
         // 
@@ -104,4 +129,6 @@ partial class Form1 {
     private Panel panel2;
     private Button button2;
     private Button buttonDirector;
+    private Button buttonGetAllMovies;
+    private Button buttonAddMovie;
 }

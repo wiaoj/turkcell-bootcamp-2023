@@ -45,6 +45,10 @@ public sealed class MovieService : IMovieService {
         return response;
     }
 
+    public async Task AddPlayersToMovie(Int32 movieId, List<Int32> players) {
+        await this.movieRepository.AddPlayersToMovie(movieId, players);
+    }
+
     public Task UpdateMovie(UpdateMovieRequest updateMovie) {
         throw new NotImplementedException();
     }

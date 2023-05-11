@@ -38,6 +38,17 @@ public class EFMovieRepository : IMovieRepository {
         return await this.moviesDbContext.Movies.AsNoTracking().Where(movie => movie.Name.Contains(title)).ToListAsync();
     }
 
+    public async Task AddPlayersToMovie(Int32 movieId, List<Int32> selectedPlayerIds) {
+        Movie movie = await this.moviesDbContext.Movies.FindAsync(movieId);
+        selectedPlayerIds.ForEach(playerId => {
+            movie?.Players.Add(new MoviesPlayer {
+                MovieId = movie.Id,
+                PlayerId = playerId
+            });
+        });
+        await this.moviesDbContext.SaveChangesAsync();
+    }
+
     public async Task UpdateAsync(Movie entity) {
         this.moviesDbContext.Movies.Update(entity);
         await this.moviesDbContext.SaveChangesAsync();
