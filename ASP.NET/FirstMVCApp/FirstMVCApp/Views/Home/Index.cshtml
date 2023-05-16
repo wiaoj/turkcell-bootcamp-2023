@@ -1,0 +1,13 @@
+﻿
+Burası Home/Index
+<p>Hoşgeldin, @ViewBag.Name</p>
+@if(ViewBag.Month == 5) {
+    <p>Oooo Mayıs gelmiş, bahar gelmiş</p>
+}
+<ul>
+    @foreach(var item in ViewBag.Items) {
+        <li>@item</li>
+    }
+</ul>
+<a asp-controller="home" asp-action="privacy">Gizlilik Bildirimi</a>
+<a asp-action="privacy">Gizlilik Bildirimi</a>
