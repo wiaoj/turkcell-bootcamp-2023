@@ -1,4 +1,4 @@
-namespace CourserApp.Mvc.Models;
+namespace DependencyInjectionLifeTime.Models;
 
 public class ErrorViewModel {
     public string? RequestId { get; set; }

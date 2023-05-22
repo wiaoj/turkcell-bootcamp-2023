@@ -7,7 +7,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{778860C8-112
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "webUI", "webUI", "{4CB8133B-9475-4682-A7AE-6213878E039A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CourserApp.Mvc", "src\webUI\CourserApp.Mvc\CourserApp.Mvc.csproj", "{DBB48C5A-B6CA-4E54-B6EA-96EC5638F763}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CourseApp.Mvc", "src\webUI\CourseApp.Mvc\CourseApp.Mvc.csproj", "{DBB48C5A-B6CA-4E54-B6EA-96EC5638F763}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domain", "Domain", "{98055BF3-D5A9-48A0-A9CE-3CC5D9632D5C}"
 EndProject
@@ -15,13 +15,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CourseApp.Entities", "src\D
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application", "Application", "{EF574BBA-BC0E-40E9-90DA-370A211AAAA7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CourseApp.Services", "src\Application\CourseApp.Services\CourseApp.Services.csproj", "{7E1167DE-43BF-44D4-8196-17629527D098}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CourseApp.Services", "src\Application\CourseApp.Services\CourseApp.Services.csproj", "{7E1167DE-43BF-44D4-8196-17629527D098}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CourseApp.DataTransferObjects", "src\Application\CourseApp.DataTransferObjects\CourseApp.DataTransferObjects.csproj", "{BFA48C01-7ADE-45B3-A77F-317EC49E1DCD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CourseApp.DataTransferObjects", "src\Application\CourseApp.DataTransferObjects\CourseApp.DataTransferObjects.csproj", "{BFA48C01-7ADE-45B3-A77F-317EC49E1DCD}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{5082D7F6-BA84-44D6-B947-F2CB4EBF2942}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CourseApp.Infrastructure", "src\Infrastructure\CourseApp.Infrastructure\CourseApp.Infrastructure.csproj", "{FC9723AE-D851-4AA0-A64C-4CBBDA984205}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CourseApp.Infrastructure", "src\Infrastructure\CourseApp.Infrastructure\CourseApp.Infrastructure.csproj", "{FC9723AE-D851-4AA0-A64C-4CBBDA984205}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

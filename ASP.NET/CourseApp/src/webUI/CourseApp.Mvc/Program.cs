@@ -9,6 +9,9 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddScoped<ICourseService, CourseService>();
 builder.Services.AddScoped<ICourseRepository, FakeCourseRepository>();
+
+//Inversion of Control (IoC)
+
 builder.Services.AddAutoMapper(typeof(MapProfile));
 
 var app = builder.Build();

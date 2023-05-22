@@ -1,0 +1,35 @@
+﻿@{
+    @using CourseApp.Mvc.Models;
+    @model PaginationCourseModel;
+    ViewData["Title"] = "Home Page";
+    Int32 columnCount = default;
+    String activeClass = "active";
+}
+
+<div class="row mt-4">
+    @foreach(CourseDisplayResponse courseDisplay in Model.Courses) {
+        if(columnCount != default && columnCount % 4 == default) {
+            @:</div>
+            @:<div class="row mt-4">
+            @*Html'e müdahale ediyoruz*@
+        }
+
+        <div class="col-3">
+            <partial name="_CourseDisplay" model="courseDisplay"/>
+        </div>
+
+        columnCount++;
+    }   
+</div>
+
+<div page-model="Model.PagingInfo" page-action="Index" class="mt-4"></div>
+
+@*<div>
+    <ul class="pagination pagination-lg">
+    @for(Int32 i = 1; i <= ViewBag.TotalPage; i++) {
+        <li class="page-item @(i == ViewBag.PageNo ? activeClass : "")">
+            <a asp-action="Index" asp-route-pageNo="@i" class="page-link">@i</a>
+        </li>
+    }
+    </ul>
+</div>*@
