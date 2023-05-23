@@ -40,7 +40,7 @@ public class PageLinkBuilder : TagHelper {
         TagBuilder ul = new("ul");
         ul.AddCssClass("pagination pagination-lg");
 
-        for(Int32 i = 1; i < this.PageModel.TotalPage; i++) {
+        for(Int32 i = 1; i <= this.PageModel.TotalPage; i++) {
             TagBuilder li = new("li");
             li.AddCssClass("page-item");
 

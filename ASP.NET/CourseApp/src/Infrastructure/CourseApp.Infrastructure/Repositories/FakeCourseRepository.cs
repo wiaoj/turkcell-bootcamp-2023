@@ -13,6 +13,7 @@ public sealed class FakeCourseRepository : ICourseRepository {
                 Price = 1M,
                 Rating = 4,
                 TotalHours = 20,
+                CategoryId = 1
             },
             new() {
                 Id = 2,
@@ -21,6 +22,7 @@ public sealed class FakeCourseRepository : ICourseRepository {
                 Price = 1M,
                 Rating = 4,
                 TotalHours = 20,
+                CategoryId = 1
             },
             new() {
                 Id = 3,
@@ -29,6 +31,7 @@ public sealed class FakeCourseRepository : ICourseRepository {
                 Price = 1M,
                 Rating = 4,
                 TotalHours = 20,
+                CategoryId = 1
             },
             new() {
                 Id = 4,
@@ -37,6 +40,7 @@ public sealed class FakeCourseRepository : ICourseRepository {
                 Price = 1M,
                 Rating = 4,
                 TotalHours = 20,
+                CategoryId = 1
             },
              new() {
                 Id = 5,
@@ -45,6 +49,7 @@ public sealed class FakeCourseRepository : ICourseRepository {
                 Price = 1M,
                 Rating = 4,
                 TotalHours = 20,
+                CategoryId = 1
             },
             new() {
                 Id = 6,
@@ -53,6 +58,7 @@ public sealed class FakeCourseRepository : ICourseRepository {
                 Price = 1M,
                 Rating = 4,
                 TotalHours = 20,
+                CategoryId = 2
             },
             new() {
                 Id = 7,
@@ -61,6 +67,7 @@ public sealed class FakeCourseRepository : ICourseRepository {
                 Price = 1M,
                 Rating = 4,
                 TotalHours = 20,
+                CategoryId = 2
             },
             new() {
                 Id = 8,
@@ -69,6 +76,7 @@ public sealed class FakeCourseRepository : ICourseRepository {
                 Price = 1M,
                 Rating = 4,
                 TotalHours = 20,
+                CategoryId = 2
             },
             new() {
                 Id = 9,
@@ -77,6 +85,7 @@ public sealed class FakeCourseRepository : ICourseRepository {
                 Price = 1M,
                 Rating = 4,
                 TotalHours = 20,
+                CategoryId = 2
             },
             new() {
                 Id = 10,
@@ -85,6 +94,7 @@ public sealed class FakeCourseRepository : ICourseRepository {
                 Price = 1M,
                 Rating = 4,
                 TotalHours = 20,
+                CategoryId = 2
             },
             new() {
                 Id = 11,
@@ -93,6 +103,7 @@ public sealed class FakeCourseRepository : ICourseRepository {
                 Price = 1M,
                 Rating = 4,
                 TotalHours = 20,
+                CategoryId = 3
             },
             new() {
                 Id = 12,
@@ -101,6 +112,7 @@ public sealed class FakeCourseRepository : ICourseRepository {
                 Price = 1M,
                 Rating = 4,
                 TotalHours = 20,
+                CategoryId = 3
             },
             new() {
                 Id = 13,
@@ -109,6 +121,7 @@ public sealed class FakeCourseRepository : ICourseRepository {
                 Price = 1M,
                 Rating = 4,
                 TotalHours = 20,
+                CategoryId = 3
             },
             new() {
                 Id = 14,
@@ -117,6 +130,7 @@ public sealed class FakeCourseRepository : ICourseRepository {
                 Price = 1M,
                 Rating = 4,
                 TotalHours = 20,
+                CategoryId = 3
             },
              new() {
                 Id = 15,
@@ -125,6 +139,7 @@ public sealed class FakeCourseRepository : ICourseRepository {
                 Price = 1M,
                 Rating = 4,
                 TotalHours = 20,
+                CategoryId = 3
             },
             new() {
                 Id = 16,
@@ -133,6 +148,7 @@ public sealed class FakeCourseRepository : ICourseRepository {
                 Price = 1M,
                 Rating = 4,
                 TotalHours = 20,
+                CategoryId = 3
             },
             new() {
                 Id = 17,
@@ -141,6 +157,7 @@ public sealed class FakeCourseRepository : ICourseRepository {
                 Price = 1M,
                 Rating = 4,
                 TotalHours = 20,
+                CategoryId = 3
             },
             new() {
                 Id = 18,
@@ -149,12 +166,13 @@ public sealed class FakeCourseRepository : ICourseRepository {
                 Price = 1M,
                 Rating = 4,
                 TotalHours = 20,
+                CategoryId = 3
             }
         };
     }
 
     public Course? Get(Int32 id) {
-        throw new NotImplementedException();
+        return this.courses.Find(course => course.Id == id);
     }
 
     public IList<Course?> GetAll() {
@@ -170,7 +188,7 @@ public sealed class FakeCourseRepository : ICourseRepository {
     }
 
     public IEnumerable<Course> GetCoursesByCategory(Int32 categoryId) {
-        throw new NotImplementedException();
+        return this.courses.Where(course => course.CategoryId == categoryId).AsEnumerable();
     }
 
     public IEnumerable<Course> GetCoursesByName(String name) {

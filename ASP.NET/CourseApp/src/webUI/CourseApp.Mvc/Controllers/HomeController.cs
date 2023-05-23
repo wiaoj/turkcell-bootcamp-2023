@@ -1,8 +1,7 @@
-﻿using CourseApp.Entities;
-using CourseApp.Services;
+﻿using CourseApp.DataTransferObjects.Responses;
 using CourseApp.Mvc.Models;
+using CourseApp.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Diagnostics;
 
 namespace CourseApp.Mvc.Controllers;
@@ -13,12 +12,14 @@ public class HomeController : Controller {
     public HomeController(
         ILogger<HomeController> logger,
         ICourseService courseService) {
-        _logger = logger;
+        this._logger = logger;
         this.courseService = courseService;
     }
 
-    public IActionResult Index(Int32 pageNo = 1) {
-        var courses = this.courseService.GetCourseDisplayResponses();
+    public IActionResult Index(Int32 pageNo = 1, Int32? id = null) {
+        IEnumerable<CourseDisplayResponse> courses = id == null 
+            ? this.courseService.GetCourseDisplayResponses()
+            : this.courseService.GetCoursesByCategory(id.Value);
 
         /*
          * 1. Sayfa; 
@@ -37,33 +38,32 @@ public class HomeController : Controller {
          * 1 -> Sayfada kaç kurs olacak?
          * 2 -> Toplam kaç kurs var? 
          */
-        var coursePerPage = 8;
-        var courseCount = courses.Count();
-        var totalPage = Math.Ceiling((Decimal)courseCount / coursePerPage);
+        Int32 coursePerPage = 4;
+        Int32 courseCount = courses.Count();
+        Decimal totalPage = Math.Ceiling((Decimal)courseCount / coursePerPage);
 
         PagingInfo pagingInfo = new() {
             CurrentPage = pageNo,
-            ItemsPerPage = 8,
+            ItemsPerPage = coursePerPage,
             TotalItems = courseCount
         };
 
-        pageNo--;
-        var paginatedCourses = courses.OrderBy(x => x.Id).Skip(pageNo * coursePerPage).Take(coursePerPage);
+        IEnumerable<CourseDisplayResponse> paginatedCourses = courses.OrderBy(x => x.Id).Skip((pageNo - 1) * coursePerPage).Take(coursePerPage);
 
         PaginationCourseModel model = new() {
-            Courses = paginatedCourses, 
-            PagingInfo = pagingInfo 
+            Courses = paginatedCourses,
+            PagingInfo = pagingInfo
         };
 
-        return View(model);
+        return this.View(model);
     }
 
     public IActionResult Privacy() {
-        return View();
+        return this.View();
     }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error() {
-        return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        return this.View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? this.HttpContext.TraceIdentifier });
     }
 }

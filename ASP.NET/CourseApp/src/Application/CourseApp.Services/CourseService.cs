@@ -14,8 +14,18 @@ public sealed class CourseService : ICourseService {
         this.mapper = mapper;
     }
 
+    public CourseDisplayResponse GetCourse(Int32 id) {
+        Course course = this.courseRepository.Get(id);
+        return this.mapper.Map<CourseDisplayResponse>(course);
+    }
+
     public IEnumerable<CourseDisplayResponse> GetCourseDisplayResponses() {
-        var courses = this.courseRepository.GetAll();
+        IList<Course?> courses = this.courseRepository.GetAll();
+        return courses.ConvertToDisplayResponses(this.mapper);
+    }
+
+    public IEnumerable<CourseDisplayResponse> GetCoursesByCategory(Int32 categoryId) {
+        IEnumerable<Course> courses = this.courseRepository.GetCoursesByCategory(categoryId);
         return courses.ConvertToDisplayResponses(this.mapper);
     }
 }
