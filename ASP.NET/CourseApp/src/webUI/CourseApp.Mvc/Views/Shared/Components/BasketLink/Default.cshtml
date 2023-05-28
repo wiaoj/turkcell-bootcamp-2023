@@ -1,0 +1,9 @@
+﻿@{
+    @model CourseCollection;
+}
+
+<li class="nav-item">
+    <a class="nav-link text-dark" asp-area="" asp-controller="Shopping" asp-action="Index">
+        Sepetim <span class="badge bg-black raunded-pill">@Model?.TotalCoursesCount()</span>
+    </a>
+</li>

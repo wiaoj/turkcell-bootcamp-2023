@@ -1,6 +1,9 @@
-﻿namespace CourseApp.Entities;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace CourseApp.Entities;
 public class Course : IEntity {
     public Int32 Id { get; set; }
+    [Required]
     public String Title { get; set; }
     public String? Description { get; set; }
     public DateTime? StartDate { get; set; }

@@ -1,0 +1,58 @@
+﻿@{
+    @model CourseCollection;
+    ViewData["Title"] = "Index";
+}
+
+<h1>Sepetiniz</h1>
+@if(Model.CourseItems.Count == 0) {
+    <div class="alert alert-danger">
+        Sepetinizde kurs yok!
+    </div>
+} else {
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th></th>
+                <th>
+                    Kurs Adı
+                </th>
+                <th>
+                    Fiyatı
+                </th>
+                <th>
+                    Adet
+                </th>
+                <th>
+                    Ara Toplam
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var courseItem in Model.CourseItems) {
+                <tr>
+                    <td>
+                        <img width="64" height="64" src="@courseItem.Course.ImageUrl"/>
+                    </td>
+                    <td>
+                        @courseItem.Course.Title
+                    </td>
+                    <td>
+                        @($"{courseItem.Course.Price:#,##0.00}") ₺
+                    </td> <td>
+                        @courseItem.Quantity
+                    </td>
+                    <td>
+                        @($"{courseItem.Quantity * courseItem.Course.Price:#,##0.00}") ₺
+                    </td>
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="4" class="mt-2 border-2 border-bottom border-success">
+                    Toplam Fiyat: @($"{@Model.TotalCoursePrice():#,##0.00}") ₺
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+}

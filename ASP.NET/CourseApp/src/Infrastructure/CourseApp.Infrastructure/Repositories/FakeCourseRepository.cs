@@ -1,4 +1,5 @@
 ﻿using CourseApp.Entities;
+using System.Linq.Expressions;
 
 namespace CourseApp.Infrastructure.Repositories;
 public sealed class FakeCourseRepository : ICourseRepository {
@@ -10,7 +11,7 @@ public sealed class FakeCourseRepository : ICourseRepository {
                 Id = 1,
                 Title = "Course X",
                 Description = "Description X",
-                Price = 1M,
+                Price = 1.45M,
                 Rating = 4,
                 TotalHours = 20,
                 CategoryId = 1
@@ -19,7 +20,7 @@ public sealed class FakeCourseRepository : ICourseRepository {
                 Id = 2,
                 Title = "Course Y",
                 Description = "Description Y",
-                Price = 1M,
+                Price = 100.78M,
                 Rating = 4,
                 TotalHours = 20,
                 CategoryId = 1
@@ -28,7 +29,7 @@ public sealed class FakeCourseRepository : ICourseRepository {
                 Id = 3,
                 Title = "Course Z",
                 Description = "Description Z",
-                Price = 1M,
+                Price = 17.95M,
                 Rating = 4,
                 TotalHours = 20,
                 CategoryId = 1
@@ -37,7 +38,7 @@ public sealed class FakeCourseRepository : ICourseRepository {
                 Id = 4,
                 Title = "Course Q",
                 Description = "Description Q",
-                Price = 1M,
+                Price = 10784.874M,
                 Rating = 4,
                 TotalHours = 20,
                 CategoryId = 1
@@ -171,6 +172,14 @@ public sealed class FakeCourseRepository : ICourseRepository {
         };
     }
 
+    public Task CreateAsync(Course entity) {
+        throw new NotImplementedException();
+    }
+
+    public Task DeleteAsync(Int32 id) {
+        throw new NotImplementedException();
+    }
+
     public Course? Get(Int32 id) {
         return this.courses.Find(course => course.Id == id);
     }
@@ -183,6 +192,10 @@ public sealed class FakeCourseRepository : ICourseRepository {
         throw new NotImplementedException();
     }
 
+    public IList<Course> GetAllWithPredicate(Expression<Func<Course, Boolean>> predicate) {
+        throw new NotImplementedException();
+    }
+
     public Task<Course?> GetAsync(Int32 id) {
         throw new NotImplementedException();
     }
@@ -191,7 +204,11 @@ public sealed class FakeCourseRepository : ICourseRepository {
         return this.courses.Where(course => course.CategoryId == categoryId).AsEnumerable();
     }
 
-    public IEnumerable<Course> GetCoursesByName(String name) {
+    public IEnumerable<Course> GetCoursesByTitle(String name) {
+        throw new NotImplementedException();
+    }
+
+    public Task UpdateAsync(Course entity) {
         throw new NotImplementedException();
     }
 }

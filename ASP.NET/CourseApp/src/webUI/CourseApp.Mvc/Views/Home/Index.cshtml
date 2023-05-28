@@ -56,9 +56,10 @@
                     type: 'GET',
                     success: function(data){
                         $('.toast-body').text(data.message);
-                        //const toastLiveExample = document.getElementById('liveToast');
-                        //bootstrap.Toast.getOrCreateInstance(toastLiveExample).show();
-                        alertify.success(data.message);
+                        const toastLiveExample = document.getElementById('liveToast');
+                        bootstrap.Toast.getOrCreateInstance(toastLiveExample).show();
+                        //alertify.success(data.message);
+                        location = location;
                     },
                     error: function(err){
                         console.log('HATA => ', err);    

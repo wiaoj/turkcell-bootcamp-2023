@@ -1,4 +1,5 @@
 ﻿using CourseApp.Entities;
+using System.Linq.Expressions;
 
 namespace CourseApp.Infrastructure.Repositories;
 public interface IRepository<TEntity> where TEntity : class, IEntity, new() {
@@ -7,4 +8,10 @@ public interface IRepository<TEntity> where TEntity : class, IEntity, new() {
 
     public IList<TEntity?> GetAll();
     public Task<IList<TEntity?>> GetAllAsync();
+
+    IList<TEntity> GetAllWithPredicate(Expression<Func<TEntity, Boolean>> predicate);
+
+    Task CreateAsync(TEntity entity);
+    Task DeleteAsync(Int32 id);
+    Task UpdateAsync(TEntity entity);
 }

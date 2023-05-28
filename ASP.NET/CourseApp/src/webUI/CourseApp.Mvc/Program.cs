@@ -8,13 +8,17 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddScoped<ICourseService, CourseService>();
-builder.Services.AddScoped<ICourseRepository, FakeCourseRepository>();
+builder.Services.AddScoped<ICourseRepository, EFCourseRepository>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
-builder.Services.AddScoped<ICategoryRepository, FakeCategoryRepository>();
+builder.Services.AddScoped<ICategoryRepository, EFCategoryRepository>();
 
 //Inversion of Control (IoC)
 
 builder.Services.AddAutoMapper(typeof(MapProfile));
+
+builder.Services.AddSession(option => {
+    option.IdleTimeout = TimeSpan.FromMinutes(15);
+}); // Session kullanmak isteniyorsa bu yazýlmalýdýr
 
 var app = builder.Build();
 
@@ -27,6 +31,8 @@ if(!app.Environment.IsDevelopment()) {
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+
+app.UseSession(); // Session middleware
 
 app.UseRouting();
 

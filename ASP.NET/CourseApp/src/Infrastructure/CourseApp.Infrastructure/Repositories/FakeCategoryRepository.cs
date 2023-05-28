@@ -1,4 +1,5 @@
 ﻿using CourseApp.Entities;
+using System.Linq.Expressions;
 
 namespace CourseApp.Infrastructure.Repositories;
 public sealed class FakeCategoryRepository : ICategoryRepository {
@@ -10,6 +11,14 @@ public sealed class FakeCategoryRepository : ICategoryRepository {
             new() { Id = 2, Name = "Programming", },
             new() { Id = 3, Name = "Philosophy", },
         };
+    }
+
+    public Task CreateAsync(Category entity) {
+        throw new NotImplementedException();
+    }
+
+    public Task DeleteAsync(Int32 id) {
+        throw new NotImplementedException();
     }
 
     public Category? Get(Int32 id) {
@@ -24,7 +33,15 @@ public sealed class FakeCategoryRepository : ICategoryRepository {
         throw new NotImplementedException();
     }
 
+    public IList<Category> GetAllWithPredicate(Expression<Func<Category, Boolean>> predicate) {
+        throw new NotImplementedException();
+    }
+
     public Task<Category?> GetAsync(Int32 id) {
+        throw new NotImplementedException();
+    }
+
+    public Task UpdateAsync(Category entity) {
         throw new NotImplementedException();
     }
 }
