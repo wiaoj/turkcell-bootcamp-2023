@@ -3,22 +3,26 @@ using System.Data;
 using CourseApp.Entities;
 using CourseApp.Infrastructure.Extensions;
 using Dapper;
-using System;
 using System.Linq.Expressions;
+using Microsoft.Extensions.Configuration;
 
 namespace CourseApp.Infrastructure.Repositories.Dapper;
 public abstract class DapperRepositoryBase<TEntity> : IRepository<TEntity> where TEntity : class, IEntity, new() {
-    protected IDbConnection connection => new SqlConnection("");
+    private readonly IConfiguration configuration;
 
-    protected IEntity Entity => (typeof(TEntity) as IEntity)!;
+    protected IDbConnection connection => 
+        new SqlConnection(this.configuration.GetConnectionString("MsSQLConnectionString"));
+
+    protected IEntity Entity => new TEntity();
+
+    public DapperRepositoryBase(IConfiguration configuration) {
+        this.configuration = configuration;
+    }
+
 
     protected String GetInsertQuery
-        => $@"
-            INSERT INTO {Entity.GetDatabaseTableName()}
-            ({Entity.GetInsertColumns()})
-            VALUES
-            ({Entity.GetInsertValues()});
-            ";
+        => 
+     $"INSERT INTO {Entity.GetDatabaseTableName()} ({Entity.GetInsertColumns()}) VALUES ({Entity.GetInsertValues()})";
 
 
     protected String GetDeleteByIdQuery => $@"DELETE FROM {Entity.GetDatabaseTableName()} WHERE Id = @Id";
@@ -29,7 +33,7 @@ public abstract class DapperRepositoryBase<TEntity> : IRepository<TEntity> where
             WHERE Id = @Id";
 
 
-    protected String GetByIdQuery => $@"SELECT * FROM {Entity.GetDatabaseTableName()} WHERE Id = @Id LIMIT 1";
+    protected String GetByIdQuery => $@"SELECT TOP 1 * FROM {Entity.GetDatabaseTableName()} WHERE Id = @Id";
 
     protected String GetAllQuery => $@"SELECT * FROM {Entity.GetDatabaseTableName()}";
 

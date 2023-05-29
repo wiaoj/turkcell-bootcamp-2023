@@ -1,6 +1,10 @@
+using CourseApp.Infrastructure.Data;
 using CourseApp.Infrastructure.Repositories;
+using CourseApp.Infrastructure.Repositories.Dapper;
 using CourseApp.Services;
 using CourseApp.Services.Mappings;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,7 +12,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddScoped<ICourseService, CourseService>();
-builder.Services.AddScoped<ICourseRepository, EFCourseRepository>();
+builder.Services.AddScoped<ICourseRepository, DapperCourseRepository>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<ICategoryRepository, EFCategoryRepository>();
 
@@ -20,6 +24,14 @@ builder.Services.AddSession(option => {
     option.IdleTimeout = TimeSpan.FromMinutes(15);
 }); // Session kullanmak isteniyorsa bu yazýlmalýdýr
 
+String connectionString = builder.Configuration.GetConnectionString("MsSQLConnectionString")!;
+
+builder.Services.AddDbContext<CourseDbContext>(option => {
+    option.UseSqlServer(connectionString);
+});
+
+builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -28,6 +40,17 @@ if(!app.Environment.IsDevelopment()) {
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
+
+using IServiceScope scope = app.Services.CreateScope();
+
+IServiceProvider services = scope.ServiceProvider;
+
+CourseDbContext context = services.GetRequiredService<CourseDbContext>();
+
+context.Database.EnsureCreated();
+DatabaseSeeding.SeedDatabase(context);
+
+
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();

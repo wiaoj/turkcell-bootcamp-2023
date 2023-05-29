@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using CourseApp.DataTransferObjects.Requests;
 using CourseApp.DataTransferObjects.Responses;
 using CourseApp.Entities;
 using CourseApp.Infrastructure.Repositories;
@@ -27,5 +28,10 @@ public sealed class CourseService : ICourseService {
     public IEnumerable<CourseDisplayResponse> GetCoursesByCategory(Int32 categoryId) {
         IEnumerable<Course> courses = this.courseRepository.GetCoursesByCategory(categoryId);
         return courses.ConvertToDisplayResponses(this.mapper);
+    }
+
+    public async Task CreateCourseAsync(CreateNewCourseRequest createNewCourseRequest) {
+        Course course = this.mapper.Map<Course>(createNewCourseRequest);
+        await this.courseRepository.CreateAsync(course);
     }
 }

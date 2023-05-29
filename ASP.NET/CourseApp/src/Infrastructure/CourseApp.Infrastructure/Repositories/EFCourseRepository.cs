@@ -17,7 +17,7 @@ public sealed class EFCourseRepository : ICourseRepository {
 
     public async Task DeleteAsync(Int32 id) {
         var deletingCourse = await this.courseDbContext.Courses.FindAsync(id);
-        this.courseDbContext.Remove(id);
+        this.courseDbContext.Remove(deletingCourse);
         await this.courseDbContext.SaveChangesAsync();
     }
 

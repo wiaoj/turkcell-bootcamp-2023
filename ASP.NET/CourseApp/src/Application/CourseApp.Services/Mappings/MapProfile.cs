@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using CourseApp.DataTransferObjects.Requests;
 using CourseApp.DataTransferObjects.Responses;
 using CourseApp.Entities;
 
@@ -7,5 +8,7 @@ public class MapProfile : Profile {
     public MapProfile() {
         CreateMap<Course, CourseDisplayResponse>();
         CreateMap<Category, CategoryDisplayResponse>();
+
+        CreateMap<CreateNewCourseRequest, Course>();
     }
 }
