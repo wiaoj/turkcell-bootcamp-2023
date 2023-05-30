@@ -26,6 +26,22 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
                         @(await Component.InvokeAsync("BasketLink"))
+                        <li class="nav-item">
+                            @if(User.Identity.IsAuthenticated)
+                            {
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Users" asp-action="Logout">@User.Identity.Name (Çıkış Yap)</a>
+                            } else
+                            {
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Users" asp-action="Login">Giriş Yap</a>
+                            }
+                        </li>
+                        @if(User.IsInRole("Admin") || User.IsInRole("Editor"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Courses" asp-action="Index">Kurs İşlemleri</a>
+                            </li>
+                        }
+
                     </ul>
                 </div>
             </div>

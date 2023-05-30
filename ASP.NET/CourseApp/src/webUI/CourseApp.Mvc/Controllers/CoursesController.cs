@@ -1,9 +1,11 @@
 ﻿using CourseApp.DataTransferObjects.Requests;
 using CourseApp.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace CourseApp.Mvc.Controllers;
+[Authorize(Roles = "Admin,Editor")]
 public class CoursesController : Controller {
     private readonly ICourseService courseService;
     private readonly ICategoryService categoryService;

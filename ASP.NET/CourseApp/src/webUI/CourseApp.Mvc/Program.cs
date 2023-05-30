@@ -3,6 +3,7 @@ using CourseApp.Infrastructure.Repositories;
 using CourseApp.Infrastructure.Repositories.Dapper;
 using CourseApp.Services;
 using CourseApp.Services.Mappings;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -15,7 +16,7 @@ builder.Services.AddScoped<ICourseService, CourseService>();
 builder.Services.AddScoped<ICourseRepository, DapperCourseRepository>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<ICategoryRepository, EFCategoryRepository>();
-
+builder.Services.AddScoped<IUserService, UserService>();
 //Inversion of Control (IoC)
 
 builder.Services.AddAutoMapper(typeof(MapProfile));
@@ -31,6 +32,13 @@ builder.Services.AddDbContext<CourseDbContext>(option => {
 });
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(opt => {
+                    opt.LoginPath = "/Users/Login";
+                    opt.AccessDeniedPath = "/Users/AccessDenied";
+                    opt.ReturnUrlParameter = "returnUrl";
+                });
 
 var app = builder.Build();
 
@@ -59,6 +67,7 @@ app.UseSession(); // Session middleware
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(
