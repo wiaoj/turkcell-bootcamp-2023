@@ -1,6 +1,7 @@
 using CourseApp.Infrastructure.Data;
 using CourseApp.Infrastructure.Repositories;
 using CourseApp.Infrastructure.Repositories.Dapper;
+using CourseApp.Mvc.Extensions;
 using CourseApp.Services;
 using CourseApp.Services.Mappings;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -12,24 +13,16 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-builder.Services.AddScoped<ICourseService, CourseService>();
-builder.Services.AddScoped<ICourseRepository, DapperCourseRepository>();
-builder.Services.AddScoped<ICategoryService, CategoryService>();
-builder.Services.AddScoped<ICategoryRepository, EFCategoryRepository>();
-builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddInjections(builder.Configuration);
+builder.Services.AddAutoMapper(typeof(MapProfile));
 //Inversion of Control (IoC)
 
-builder.Services.AddAutoMapper(typeof(MapProfile));
 
 builder.Services.AddSession(option => {
     option.IdleTimeout = TimeSpan.FromMinutes(15);
 }); // Session kullanmak isteniyorsa bu yazýlmalýdýr
 
-String connectionString = builder.Configuration.GetConnectionString("MsSQLConnectionString")!;
 
-builder.Services.AddDbContext<CourseDbContext>(option => {
-    option.UseSqlServer(connectionString);
-});
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
@@ -39,6 +32,12 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
                     opt.AccessDeniedPath = "/Users/AccessDenied";
                     opt.ReturnUrlParameter = "returnUrl";
                 });
+
+//Caching
+builder.Services.AddMemoryCache();
+builder.Services.AddResponseCaching(option => {
+    option.SizeLimit = 100_000;
+});
 
 var app = builder.Build();
 
@@ -59,8 +58,8 @@ context.Database.EnsureCreated();
 DatabaseSeeding.SeedDatabase(context);
 
 
-
 app.UseHttpsRedirection();
+app.UseResponseCaching();
 app.UseStaticFiles();
 
 app.UseSession(); // Session middleware
