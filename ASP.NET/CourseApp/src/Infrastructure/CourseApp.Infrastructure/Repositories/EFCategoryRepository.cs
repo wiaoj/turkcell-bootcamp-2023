@@ -42,6 +42,10 @@ public sealed class EFCategoryRepository : ICategoryRepository {
         return this.courseDbContext.Categories.FirstOrDefaultAsync(category => category.Id == id);
     }
 
+    public Task<Boolean> IsExistsAsync(Int32 id) {
+        throw new NotImplementedException();
+    }
+
     public async Task UpdateAsync(Category entity) {
         this.courseDbContext.Categories.Update(entity);
         await courseDbContext.SaveChangesAsync();

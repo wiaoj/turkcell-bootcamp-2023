@@ -83,4 +83,8 @@ public abstract class DapperRepositoryBase<TEntity> : IRepository<TEntity> where
         if(affectedRows <= 0)
             throw new Exception("Veritabanında güncelleme yapılamadı");
     }
+
+    public Task<Boolean> IsExistsAsync(Int32 id) {
+        throw new NotImplementedException();
+    }
 }

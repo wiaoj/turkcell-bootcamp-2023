@@ -1,4 +1,5 @@
 ﻿using CourseApp.DataTransferObjects.Requests;
+using CourseApp.DataTransferObjects.Responses;
 using CourseApp.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -35,6 +36,26 @@ public class CoursesController : Controller {
         }
 
         await this.courseService.CreateCourseAsync(createNewCourseRequest);
+        return RedirectToAction(nameof(Index));
+    }
+
+    public async Task<IActionResult> Edit(Int32 id) {
+        ViewBag.Categories = getCategoriesForSelectlist();
+        UpdateCourseRequest course = await this.courseService.GetCourseForUpdateAsync(id);
+        return View(course);
+    }
+
+    [HttpPut]
+    public async Task<IActionResult> Edit(Int32 id, UpdateCourseRequest updateCourseRequest) {
+        if(await this.courseService.CourseIsExists(id) is false)
+            return NotFound();
+
+        if(ModelState.IsValid is false) {
+            ViewBag.Categories = getCategoriesForSelectlist();
+            return View();
+        }
+
+        await this.courseService.UpdateCourseAsync(updateCourseRequest);
         return RedirectToAction(nameof(Index));
     }
 

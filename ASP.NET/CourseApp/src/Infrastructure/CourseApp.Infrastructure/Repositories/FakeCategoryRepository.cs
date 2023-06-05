@@ -41,6 +41,10 @@ public sealed class FakeCategoryRepository : ICategoryRepository {
         throw new NotImplementedException();
     }
 
+    public Task<Boolean> IsExistsAsync(Int32 id) {
+        throw new NotImplementedException();
+    }
+
     public Task UpdateAsync(Category entity) {
         throw new NotImplementedException();
     }

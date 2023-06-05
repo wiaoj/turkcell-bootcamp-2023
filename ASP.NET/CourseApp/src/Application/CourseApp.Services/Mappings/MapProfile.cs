@@ -10,5 +10,6 @@ public class MapProfile : Profile {
         CreateMap<Category, CategoryDisplayResponse>();
 
         CreateMap<CreateNewCourseRequest, Course>();
+        CreateMap<UpdateCourseRequest, Course>().ReverseMap();
     }
 }

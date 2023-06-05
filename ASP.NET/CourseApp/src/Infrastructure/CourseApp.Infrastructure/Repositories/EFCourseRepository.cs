@@ -49,6 +49,10 @@ public sealed class EFCourseRepository : ICourseRepository {
         return this.courseDbContext.Courses.Where(course => course.Title.Contains(title)).AsEnumerable();
     }
 
+    public async Task<Boolean> IsExistsAsync(Int32 id) {
+        return await this.courseDbContext.Courses.AnyAsync(course => course.Id == id);
+    }
+
     public async Task UpdateAsync(Course entity) {
         this.courseDbContext.Courses.Update(entity);
         await courseDbContext.SaveChangesAsync();

@@ -208,6 +208,10 @@ public sealed class FakeCourseRepository : ICourseRepository {
         throw new NotImplementedException();
     }
 
+    public Task<Boolean> IsExistsAsync(Int32 id) {
+        throw new NotImplementedException();
+    }
+
     public Task UpdateAsync(Course entity) {
         throw new NotImplementedException();
     }
