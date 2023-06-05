@@ -1,0 +1,110 @@
+﻿@{
+    @model CreateBookViewModel
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Create</h1>
+
+<h4>CreateBookRequest</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="@Model.CreateBookRequest.Title" class="control-label"></label>
+                <input asp-for="@Model.CreateBookRequest.Title" class="form-control" />
+                <span asp-validation-for="@Model.CreateBookRequest.Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.CreateBookRequest.Barcode" class="control-label"></label>
+                <input asp-for="@Model.CreateBookRequest.Barcode" class="form-control" />
+                <span asp-validation-for="@Model.CreateBookRequest.Barcode" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.CreateBookRequest.Price" class="control-label"></label>
+                <input asp-for="@Model.CreateBookRequest.Price" class="form-control" />
+                <span asp-validation-for="@Model.CreateBookRequest.Price" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.CreateBookRequest.ImageUrl" class="control-label"></label>
+                <input asp-for="@Model.CreateBookRequest.ImageUrl" class="form-control" />
+                <span asp-validation-for="@Model.CreateBookRequest.ImageUrl" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.CreateBookRequest.Description" class="control-label"></label>
+                <input asp-for="@Model.CreateBookRequest.Description" class="form-control" />
+                <span asp-validation-for="@Model.CreateBookRequest.Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.CreateBookRequest.CoverType" class="control-label"></label>
+                <input asp-for="@Model.CreateBookRequest.CoverType" class="form-control" />
+                <span asp-validation-for="@Model.CreateBookRequest.CoverType" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.CreateBookRequest.PaperType" class="control-label"></label>
+                <input asp-for="@Model.CreateBookRequest.PaperType" class="form-control" />
+                <span asp-validation-for="@Model.CreateBookRequest.PaperType" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.CreateBookRequest.PageCount" class="control-label"></label>
+                <input asp-for="@Model.CreateBookRequest.PageCount" class="form-control" />
+                <span asp-validation-for="@Model.CreateBookRequest.PageCount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.CreateBookRequest.PublicationDate" class="control-label"></label>
+                <input asp-for="@Model.CreateBookRequest.PublicationDate" class="form-control" />
+                <span asp-validation-for="@Model.CreateBookRequest.PublicationDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.CreateBookRequest.Size" class="control-label"></label>
+                <input asp-for="@Model.CreateBookRequest.Size" class="form-control" />
+                <span asp-validation-for="@Model.CreateBookRequest.Size" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.CreateBookRequest.Weight" class="control-label"></label>
+                <input asp-for="@Model.CreateBookRequest.Weight" class="form-control" />
+                <span asp-validation-for="@Model.CreateBookRequest.Weight" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.CreateBookRequest.Dimensions" class="control-label"></label>
+                <input asp-for="@Model.CreateBookRequest.Dimensions" class="form-control" />
+                <span asp-validation-for="@Model.CreateBookRequest.Dimensions" class="text-danger"></span>
+            </div>
+            @*<div class="form-group">
+                <label asp-for="@Model.CreateBookRequest.CategoryId" class="control-label"></label>
+                <select asp-for="@Model.CreateBookRequest.CategoryId" class="form-control" asp-items="@Model.Categories">
+                    <option hidden="" value="" disabled selected>Lütfen kategori seçin</option>
+                </select>
+                <span asp-validation-for="@Model.CreateBookRequest.CategoryId" class="text-danger"></span>
+                <button></button>
+            </div>*@
+            <div class="form-group">
+                <label asp-for="@Model.CreateBookRequest.AuthorId" class="control-label"></label>
+                <select asp-for="@Model.CreateBookRequest.AuthorId" class="form-control" asp-items="@Model.Authors">
+                    <option hidden="" value="" disabled selected>Lütfen yazar seçin</option>
+                </select>
+                <span asp-validation-for="@Model.CreateBookRequest.AuthorId" class="text-danger"></span>              
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.CreateBookRequest.Genres" class="control-label"></label>
+                <select asp-for="@Model.CreateBookRequest.Genres" class="form-control" asp-items="@Model.Genres" multiple>
+                    <option hidden="" value="" disabled selected>Lütfen tür seçin</option>
+                </select>
+                <span asp-validation-for="@Model.CreateBookRequest.Genres" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,0 +1,36 @@
+﻿@{
+    @model BookDetailResponse
+    ViewData["Title"] = $"{Model.Title}";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-3">
+            <img src="@Model.ImageUrl" alt="@Model.Title" width="200" height="300" />
+        </div>
+        <div class="col-7">
+            <h2>@Model.Title</h2>
+            <div>
+                <p>Kitap Açıklaması</p>
+                <p>
+                    @(Model.Description ?? "Kitap açıklaması bulunmuyor")
+                </p>
+            </div>
+
+        </div>
+        <div class="col-2">
+            Satın al
+            <div>
+                <h4 class="fw-bold">Kitap Ayrıntıları</h4>
+                
+                <book-details barcode="@Model.Barcode"
+                     cover-type="@Model.CoverType"
+                     size="@Model.Size"
+                     page-count="@Model.PageCount"
+                     paper-type="@Model.PaperType"
+                     publication-date="@Model.PublicationDate" ></book-details>
+            </div>
+        </div>
+    </div>
+</div>

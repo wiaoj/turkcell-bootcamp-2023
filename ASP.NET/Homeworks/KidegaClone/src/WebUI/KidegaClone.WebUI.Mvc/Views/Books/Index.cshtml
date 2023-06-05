@@ -1,0 +1,160 @@
+﻿@{
+    @model PaginationResponse<BookDisplayResponse>
+    ViewData["Title"] = "Update";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    Int64 tableItemCount = (Model.PaginationInfo.Index - 1) * Model.PaginationInfo.Size;
+
+}
+
+<h1>Kitap İşlemleri</h1>
+
+<div pagination-info="Model.PaginationInfo" page-action="Index" class="mt-4"></div>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+@if(Model.PaginationInfo.Count is default(Int32))
+{
+    <p>Herhangi bir kitap bulunmamaktadır.</p>
+    return;
+}
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+
+            </th>
+            <th>
+                @(nameof(BookDisplayResponse.Title))
+            </th>
+            <th>
+                @(nameof(BookDisplayResponse.Price))
+            </th>
+            <th>
+                @(nameof(BookDisplayResponse.ImageUrl))
+            </th>
+            <th>
+                @(nameof(BookDisplayResponse.AuthorFullName))
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var item in Model.Items)
+        {
+            <tr>
+                <td>
+
+                    @(++tableItemCount)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ImageUrl)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AuthorFullName)
+                </td>
+                <td>
+                    <button type="button" onclick="showUpdateBookModal(this)" data-id="@item.Id" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                        Düzenle
+                    </button>
+                    <button type="button" onclick="deleteBook(this)" data-id="@item.Id" class="btn btn-danger">
+                        Sil
+                    </button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">Modal title</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div id="staticBackdropContainer" class="modal-body">
+                <form id="updateBookForm">
+                    <input type="hidden" id="Id" name="Id" />
+
+                    <div class="mb-3">
+                        <label for="Title" class="form-label">Title</label>
+                        <input type="text" class="form-control" id="Title" name="Title" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="Barcode" class="form-label">Barcode</label>
+                        <input type="text" class="form-control" id="Barcode" name="Barcode" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="Price" class="form-label">Price</label>
+                        <input type="text" class="form-control" id="Price" name="Price" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="ImageUrl" class="form-label">Image Url</label>
+                        <input type="text" class="form-control" id="ImageUrl" name="ImageUrl" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="Description" class="form-label">Description</label>
+                        <textarea class="form-control" id="Description" name="Description"></textarea>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="AuthorName" class="form-label">Author Name</label>
+                        <input type="text" class="form-control" id="AuthorName" name="AuthorName" />
+                    </div>
+                </form>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                <button type="button" class="btn btn-primary">Değişiklikleri Kaydet</button>
+                @*
+                //update işlemi tamamlanabilir
+                *@
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function showUpdateBookModal(button) {
+        const id = button.getAttribute("data-id");
+
+        fetch(`/books/${id}/getbookdetailsforupdate`)
+            .then(response => response.json())
+            .then(data => {
+                //document.getElementById('staticBackdropContainer').innerHTML = data;
+                //var modal = document.getElementById('staticBackdrop');
+                //modal.show();
+                console.log(data)
+                document.getElementById('Id').value = data.id;
+                document.getElementById('Title').value = data.title;
+                document.getElementById('Barcode').value = data.barcode;
+                document.getElementById('Price').value = data.price;
+                document.getElementById('ImageUrl').value = data.imageUrl;
+                document.getElementById('Description').value = data.description;
+                document.getElementById('AuthorName').value = data.author.fullName;
+
+            })
+            .catch(error => console.log(error));
+    }
+
+    function deleteBook(button) {
+        const id = button.getAttribute("data-id");
+
+        fetch(`/books/${id}`, { method: "DELETE" })
+            .then(response => response.json())
+            .then(data => console.log(data))
+            .catch(error => console.log(error));
+    }
+</script>

@@ -1,0 +1,30 @@
+﻿@{
+    @using KidegaClone.WebUI.Mvc.Controllers;
+    @using KidegaClone.WebUI.Mvc.Extensions;
+    @model BookDisplayResponse;
+
+}
+
+<div class="card m-auto" style="width: 18rem;">
+    <a 
+        asp-controller="@(nameof(BooksController).TrimControllerSuffix())" 
+        asp-action="@nameof(BooksController.Details)" 
+        asp-action="@Model.Id" 
+        class="mb-3 text-decoration-none">
+        <img src="@Model.ImageUrl" class="card-img-top" alt="@Model.Title"
+             style="aspect-ratio:3/4">
+        <div class="card-body">
+            <h5 class="fw-bold text-success">@Model.Title</h5>
+            <p class="card-text text-secondary">
+                @Model.AuthorFullName
+            </p>
+
+        </div>
+    </a>
+    <div class="card-footer d-flex align-items-center justify-content-between">
+        <span class="h4 text-success">
+            @Model.Price ₺
+        </span>
+        <button type="button" class="btn btn-warning">Sepete Ekle</button>
+    </div>
+</div>

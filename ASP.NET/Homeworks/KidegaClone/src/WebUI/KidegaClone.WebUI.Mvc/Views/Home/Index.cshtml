@@ -1,0 +1,22 @@
+﻿@{
+    @model PaginationResponse<BookDisplayResponse>
+    ViewData["Title"] = "Home Page";
+    Int32 columnCount = default;
+}
+
+<div pagination-info="Model.PaginationInfo" page-action="Index" class="mt-4"></div>
+    
+<div class="row mt-4">
+    @foreach(BookDisplayResponse courseDisplay in Model.Items) {
+        if(columnCount != default && columnCount % 4 == default) {
+            @:</div>
+            @:<div class="row mt-4">
+        }
+
+        <div class="col-lg-3 mb-3">
+            <partial name="_BookDisplay" model="courseDisplay"/>
+        </div>
+
+        columnCount++;
+    }   
+</div>
