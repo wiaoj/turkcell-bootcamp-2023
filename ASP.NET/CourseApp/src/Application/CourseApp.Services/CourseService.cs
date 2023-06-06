@@ -48,4 +48,19 @@ public sealed class CourseService : ICourseService {
         Course? course = await this.courseRepository.GetAsync(id);
         return this.mapper.Map<UpdateCourseRequest>(course);
     }
+
+    public async Task<IEnumerable<CourseDisplayResponse>> SearchByTitleAsync(String title) {
+        IEnumerable<Course> courses = await this.courseRepository.GetCoursesByTitleAsync(title);
+        return courses.ConvertToDisplayResponses(this.mapper);
+    }
+
+    public async Task<Int32> CreateCourseAndReturnIdAsync(CreateNewCourseRequest createNewCourseRequest) {
+        Course course = this.mapper.Map<Course>(createNewCourseRequest);
+        await this.courseRepository.CreateAsync(course);
+        return course.Id;
+    }
+
+    public async Task DeleteAsync(Int32 id) {
+        await this.courseRepository.DeleteAsync(id);
+    }
 }

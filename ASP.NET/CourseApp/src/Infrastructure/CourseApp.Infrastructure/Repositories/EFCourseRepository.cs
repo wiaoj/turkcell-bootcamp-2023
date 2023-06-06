@@ -45,8 +45,16 @@ public sealed class EFCourseRepository : ICourseRepository {
         return this.courseDbContext.Courses.AsNoTracking().Where(course => course.CategoryId == categoryId).AsEnumerable();
     }
 
+    public async Task<IEnumerable<Course>> GetCoursesByCategoryAsync(Int32 categoryId) {
+        return await this.courseDbContext.Courses.AsNoTracking().Where(course => course.CategoryId == categoryId).ToListAsync();
+    }
+
     public IEnumerable<Course> GetCoursesByTitle(String title) {
         return this.courseDbContext.Courses.Where(course => course.Title.Contains(title)).AsEnumerable();
+    }
+
+    public async Task<IEnumerable<Course>> GetCoursesByTitleAsync(String title) {
+        return await this.courseDbContext.Courses.Where(course => course.Title.Contains(title)).ToListAsync();
     }
 
     public async Task<Boolean> IsExistsAsync(Int32 id) {

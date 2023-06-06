@@ -17,6 +17,10 @@ public class DapperCourseRepository : DapperRepositoryBase<Course>, ICourseRepos
         return courses;
     }
 
+    public Task<IEnumerable<Course>> GetCoursesByCategoryAsync(Int32 categoryId) {
+        throw new NotImplementedException();
+    }
+
     public IEnumerable<Course> GetCoursesByTitle(String title) {
         IEnumerable<Course> courses =
             this.connection.Query<Course>(
@@ -24,5 +28,9 @@ public class DapperCourseRepository : DapperRepositoryBase<Course>, ICourseRepos
                 WHERE Title LIKE CONCAT('%', @Title, '%')",
                 new { Title = title });
         return courses;
+    }
+
+    public Task<IEnumerable<Course>> GetCoursesByTitleAsync(String title) {
+        throw new NotImplementedException();
     }
 }

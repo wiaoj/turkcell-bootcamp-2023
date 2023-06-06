@@ -204,7 +204,15 @@ public sealed class FakeCourseRepository : ICourseRepository {
         return this.courses.Where(course => course.CategoryId == categoryId).AsEnumerable();
     }
 
+    public Task<IEnumerable<Course>> GetCoursesByCategoryAsync(Int32 categoryId) {
+        throw new NotImplementedException();
+    }
+
     public IEnumerable<Course> GetCoursesByTitle(String name) {
+        throw new NotImplementedException();
+    }
+
+    public Task<IEnumerable<Course>> GetCoursesByTitleAsync(String title) {
         throw new NotImplementedException();
     }
 
