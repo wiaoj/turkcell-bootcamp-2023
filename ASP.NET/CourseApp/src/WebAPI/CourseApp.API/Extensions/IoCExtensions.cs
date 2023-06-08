@@ -1,5 +1,4 @@
-﻿using CourseApp.Infrastructure.Repositories.Dapper;
-using CourseApp.Infrastructure.Repositories;
+﻿using CourseApp.Infrastructure.Repositories;
 using CourseApp.Services;
 using CourseApp.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;

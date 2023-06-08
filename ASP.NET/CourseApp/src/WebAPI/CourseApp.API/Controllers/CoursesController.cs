@@ -1,5 +1,7 @@
-﻿using CourseApp.DataTransferObjects.Requests;
+﻿using CourseApp.API.Filters;
+using CourseApp.DataTransferObjects.Requests;
 using CourseApp.DataTransferObjects.Responses;
+using CourseApp.Entities;
 using CourseApp.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -55,11 +57,8 @@ public class CoursesController : ControllerBase {
     }
 
     [HttpPut("{id}")]
+    [IsExists]
     public async Task<IActionResult> Update(Int32 id, UpdateCourseRequest request) {
-        Boolean isExists = await this.courseService.CourseIsExists(id);
-        if(isExists is false)
-            return NotFound();
-
         if(ModelState.IsValid is false)
             return BadRequest(ModelState);
 
@@ -68,12 +67,15 @@ public class CoursesController : ControllerBase {
     }
 
     [HttpDelete("{id}")]
+    [IsExists]
     public async Task<IActionResult> Delete(Int32 id) {
-        Boolean isExists = await this.courseService.CourseIsExists(id);
-        if(isExists is false)
-            return NotFound();
-
         await this.courseService.DeleteAsync(id);
         return NoContent();
+    }
+
+    [HttpGet("[action]")]
+    [NotImplemented]
+    public IActionResult NotImplemented() {
+        throw new NotImplementedException();
     }
 }
