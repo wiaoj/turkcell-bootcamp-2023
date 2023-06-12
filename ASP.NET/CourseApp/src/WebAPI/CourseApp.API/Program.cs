@@ -1,6 +1,9 @@
 using CourseApp.API.Extensions;
 using CourseApp.API.Filters;
 using CourseApp.API.Security;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,8 +16,19 @@ builder.Services.AddControllers(configure => {
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddAuthentication("Basic")
-                .AddScheme<BasicOption, BasicHandler>("Basic", null);
+//builder.Services.AddAuthentication("Basic")
+//                .AddScheme<BasicOption, BasicHandler>("Basic", null);
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(option => {
+        option.TokenValidationParameters = new() {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidIssuer = "server",
+            ValidAudience = "client",
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("BURASI-COK-GIZLI-ONA-GORE")),
+        };
+    });
 
 builder.Services.AddInjections(builder.Configuration);
 

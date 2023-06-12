@@ -3,6 +3,7 @@ using CourseApp.DataTransferObjects.Requests;
 using CourseApp.DataTransferObjects.Responses;
 using CourseApp.Entities;
 using CourseApp.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CourseApp.API.Controllers;
@@ -47,6 +48,7 @@ public class CoursesController : ControllerBase {
     }
 
     [HttpPost]
+    [Authorize]
     public async Task<IActionResult> Create(CreateNewCourseRequest request) {
         if(ModelState.IsValid is false) {
             return BadRequest(ModelState);

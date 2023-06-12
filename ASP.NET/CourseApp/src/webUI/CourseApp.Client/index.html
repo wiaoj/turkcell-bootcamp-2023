@@ -22,7 +22,7 @@
                     url:'https://localhost:7180/api/Courses',
                     type: 'GET',
                     headers: {
-                        'Authorization': `Basic ${btoa('wiaoj:123')}`
+                        'Authorization': `Bearer [TOKEN]`
                     },
                     success: (datas) => {
                         $.each(datas, (index, data) =>{
