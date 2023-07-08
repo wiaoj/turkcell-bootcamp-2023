@@ -1,0 +1,10 @@
+﻿global using Application.DataTransferObjects.Requests.Surveys;
+global using Application.DataTransferObjects.Responses.Surveys;
+global using Application.DataTransferObjects.Requests.Answers;
+global using Application.DataTransferObjects.Responses.Answers;
+global using Application.DataTransferObjects.Responses.Authentication;
+global using Application.DataTransferObjects.Requests.Authentication;
+global using Application.Repositories;
+global using Domain.Entities;
+global using Infrastructure.Persistence.Repositories;
+global using Application.Services.Extensions;
